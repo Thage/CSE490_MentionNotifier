@@ -5,6 +5,7 @@ import requests
 import pickle
 import os
 from plyer import notification
+from tabbedLayout import google_threads
 
 site_dict = {}
 
@@ -29,6 +30,10 @@ def pickle_dict(search_keywords):
             old_dict = pickle.load(handle)
             #print(old_dict.keys())
         print(site_dict.keys() - old_dict.keys())
+        print("SITE_DICT_KEYS")
+        print(site_dict.keys())
+        print("OLD_DICT_KEYS")
+        print(old_dict.keys())
         if (site_dict.keys() - old_dict.keys()) == set():
             #print("**")
             update_count, update_index = compare_dicts(site_dict, old_dict)

@@ -1,16 +1,17 @@
 from plyer import notification
 from threading import Timer
 
-class intervalFuncTimer():
+class intervalFuncTimer:
 
-    #thread_id = 0
+    thread_count = 0
 
     def __init__(self,t,func, xargs):
         self.t=t
         self.func = func
         self.xargs = xargs
         self.thread = Timer(0,self.handle_function)
-        #self.thread.name += str(self.thread_id)
+        intervalFuncTimer.thread_count += 1
+        self.thread_id = intervalFuncTimer.thread_count
 
 
     def handle_function(self):

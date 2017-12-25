@@ -11,10 +11,12 @@ from kivy.uix.tabbedpanel import TabbedPanel
 import google_search_iter as google
 import archive_google_res as agr
 import trayNotification
-from random import sample
-from string import ascii_lowercase
 from kivy.properties import StringProperty
 from HoverBehavior import HoverBehavior
+
+
+from random import sample
+from string import ascii_lowercase
 
 google_queries = []
 google_results = []
@@ -22,7 +24,23 @@ google_threads = []
 update_index = []
 
 
+
+class ResultBundle:
+
+    def __init__(self, thread):
+        self.google_query = ""
+        self. thread = thread
+        self.results = []
+        update_index = []
+
 class TabbedLayout(TabbedPanel):
+
+
+    def thread_id_pr (self):
+        global google_threads
+        for thread in google_threads:
+            print(thread.thread_id)
+
 
 
     def addField(self, text, selected=False):
@@ -35,6 +53,15 @@ class TabbedLayout(TabbedPanel):
         self.ids.field_input.text = ""
         self.ids.fields.refresh_views()
         #print(self.ids.fields.data)
+
+    def removeField(self):
+        for keyword in self.ids.fields.data:
+            if keyword['selected']:
+                self.ids.fields.data.remove(keyword)
+
+        #print(self.ids.fields.data)
+        #self.ids.fields.data.pop()
+        #self.ids.fields.refresh_views()
 
     def print_google_results(self):
         print((google_threads))
@@ -58,8 +85,9 @@ class TabbedLayout(TabbedPanel):
         #print(google_results[0])
 
     def google_thread(self):
+        global google_threads
         ls = [d['text'] for d in self.ids.fields.data if d['selected'] == True]
-        thread = trayNotification.intervalFuncTimer(8, self.google_this, xargs=ls)
+        thread = trayNotification.intervalFuncTimer(40, self.google_this, xargs=ls)
         thread.start()
         google_threads.append(thread)
 

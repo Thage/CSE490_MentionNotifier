@@ -137,11 +137,14 @@
                     height: 92
                     Button:
                         text: 'Remove Keyword'
-                        on_press: root.print_google_results()
+                        on_press: root.removeField()
                     Button:
                         text: 'Results'
                         on_press: if [d['text'] for d in root.ids.fields.data if d['selected'] == True]: root.google_thread(), root.switch_to(results_tab)
                         #on_press:
+                Button:
+                    text: 'print'
+                    on_press: root.thread_id_pr()
                 Label:
                     text: 'Empty Space'
     TabbedPanelItem:
@@ -168,7 +171,7 @@
                 GridLayout:
                     cols: 3
                     size_hint_y: None
-                    height: dp(108)
+                    height: dp(48)
                     padding: dp(8)
                     spacing: dp(16)
                     Button:

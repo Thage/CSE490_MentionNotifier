@@ -1,11 +1,3 @@
-from __future__ import unicode_literals
-from __future__ import absolute_import
-
-from future import standard_library
-standard_library.install_aliases()
-from builtins import range
-from builtins import object
-#from .utils import _get_search_url, get_html
 from bs4 import BeautifulSoup
 import urllib.parse, urllib.request, urllib.error
 from urllib.parse import unquote, urlencode
@@ -126,7 +118,7 @@ def _get_link(li):
 
 def _get_description(li):
     """Return the description of a google search.
-    TODO: There are some text encoding problems to resolve."""
+    TODO: encoding?"""
 
     sdiv = li.find("div", attrs={"class": "s"})
     if sdiv:
@@ -148,8 +140,7 @@ def get_html(url):
     except urllib.error.HTTPError as e:
         print("Error accessing:", url)
         if e.code == 503 and 'CaptchaRedirect' in e.read():
-            print("Google is requiring a Captcha. " \
-                  "For more information see: 'https://support.google.com/websearch/answer/86640'")
+            print("Captcha Required.")
         return None
     except Exception as e:
         print("Error accessing:", url)
