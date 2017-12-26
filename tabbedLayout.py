@@ -12,34 +12,46 @@ import google_search_iter as google
 import archive_google_res as agr
 import trayNotification
 from kivy.properties import StringProperty
-from HoverBehavior import HoverBehavior
+
 
 
 from random import sample
 from string import ascii_lowercase
 
-google_queries = []
-google_results = []
-google_threads = []
-update_index = []
+
 
 
 
 class ResultBundle:
 
+    bundles = []
+
     def __init__(self, thread):
         self.google_query = ""
-        self. thread = thread
+        self.thread = thread
         self.results = []
-        update_index = []
+        self.update_index = []
+        self.site_dict = {}
+
+
 
 class TabbedLayout(TabbedPanel):
 
 
+
+
     def thread_id_pr (self):
-        global google_threads
-        for thread in google_threads:
-            print(thread.thread_id)
+
+        print(id(ResultBundle.bundles))
+
+        for bundle in ResultBundle.bundles:
+            print("query", bundle.google_query)
+            print("thread id", bundle.thread.thread_id)
+            print("results", bundle.results)
+            print("updates", bundle.update_index)
+            print("keys:")
+            print(bundle.site_dict.keys())
+
 
 
 
@@ -63,33 +75,33 @@ class TabbedLayout(TabbedPanel):
         #self.ids.fields.data.pop()
         #self.ids.fields.refresh_views()
 
-    def print_google_results(self):
-        print((google_threads))
-        print((google_results))
 
     def sortFields(self):
         self.ids.fields.data = sorted(self.ids.fields.data, key=lambda x: x['text'])
         print(self.ids)
 
-    def google_this(self, ls):
-        global update_index
-        if len(ls) == 0: return
-        search_keywords = " ".join(ls)
-        if search_keywords in google_queries:
-            google_results.insert(google_queries.index(search_keywords),
-                                       google.search_iter(search_keywords, agr.iterThis, pages=2))
-        else:
-            google_results.append(google.search_iter(search_keywords, agr.iterThis, pages=2))
-        update_index = agr.pickle_dict(search_keywords)[1]
+    def google_this(self, search_keywords, pages=2):
 
-        #print(google_results[0])
+        if search_keywords in [bundle.google_query for bundle in ResultBundle.bundles]:
+            bundle = ResultBundle.bundles[[bundle.google_query for bundle in ResultBundle.bundles].index(search_keywords)]
+            bundle.results = google.search_iter(bundle,agr.iterThis, pages=pages)
+            bundle.update_index = agr.pickle_dict(bundle)[1]
 
-    def google_thread(self):
-        global google_threads
+    def google_thread(self, pages):
         ls = [d['text'] for d in self.ids.fields.data if d['selected'] == True]
-        thread = trayNotification.intervalFuncTimer(40, self.google_this, xargs=ls)
-        thread.start()
-        google_threads.append(thread)
+        if len(ls) == 0: return
+
+        search_keywords = " ".join(ls)
+
+
+        bundle = ResultBundle(trayNotification.intervalFuncTimer(40, self.google_this, xargs=[search_keywords, int(pages)]))
+        bundle.google_query = search_keywords
+        ResultBundle.bundles.append(bundle)
+        bundle.thread.start()
+
+
+        print(self.ids.keys())
+        self.ids.threads.data.append({'text': bundle.google_query, 'selected': False})
 
 class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
                                  RecycleBoxLayout):
@@ -100,6 +112,7 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
     index = None
     selected = BooleanProperty(False)
     selectable = BooleanProperty(True)
+    is_not = BooleanProperty(True)
 
     def refresh_view_attrs(self, rv, index, data):
 
@@ -138,16 +151,25 @@ class Row(BoxLayout):
 
 class GoogleResultRow(BoxLayout):
 
-    def list_results(self):
-        if len(google_results) == 0: return
-        #self.rv.data = [{'value': ''.join(sample(ascii_lowercase, 6))} for x in range(50)]
+
+    def list_results(self, selection_list):
+
+        print(selection_list)
+        bundles = ResultBundle.bundles
+        query = [d['text'] for d in selection_list if d['selected'] == True]
+        query = query[0]
+        print(query)
+
+        
+        bundle = bundles[[bundle.google_query for bundle in bundles].index(query)]
+
         self.rv.data = [{'name': x.name, 'link': x.link, 'description': x.description,
-                         'was_updated': update_index[google_results[0].index(x)]} for x in google_results[0]]
-        #test
-        # self.rv.data = [{'name': "name", 'link': "http://www.google.com", 'description': "blahblah"} for x in range(20)]
+                         'was_updated': bundle.update_index[bundle.results.index(x)]} for x in bundle.results]
+
 
         #print([([y.name for y in x]) for x in google_results])
          #self.rv.data = [x[0].name for x in google_results]
+
     def highlight_updated(self):
         self.rv.data = sorted(self.rv.data, key=lambda x: x['value'])
 
@@ -165,6 +187,10 @@ class GoogleResultRow(BoxLayout):
     def remove(self):
         if self.rv.data:
             self.rv.data.pop(0)
+
+    def float_updated(self):
+        self.rv.data = [x for x in self.rv.data if x['was_updated'] == True] +\
+                       [x for x in self.rv.data if x['was_updated'] == False]
 
 
 

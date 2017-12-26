@@ -15,7 +15,7 @@ class intervalFuncTimer:
 
 
     def handle_function(self):
-        self.func(self.xargs)
+        self.func(*self.xargs)
         self.thread = Timer(self.t,self.handle_function)
         self.thread.start()
 

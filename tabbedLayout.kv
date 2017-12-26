@@ -140,11 +140,21 @@
                         on_press: root.removeField()
                     Button:
                         text: 'Results'
-                        on_press: if [d['text'] for d in root.ids.fields.data if d['selected'] == True]: root.google_thread(), root.switch_to(results_tab)
+                        on_press: if [d['text'] for d in root.ids.fields.data if d['selected'] == True]: root.google_thread(pages_count.text)
                         #on_press:
                 Button:
                     text: 'print'
                     on_press: root.thread_id_pr()
+                BoxLayout:
+                    orientation:'horizontal'
+                    Label:
+                        text: "Number of Pages:"
+                    TextInput:
+                        id: pages_count
+                        multiline: False
+                        input_filter: 'int'
+                        text: '2'
+
                 Label:
                     text: 'Empty Space'
     TabbedPanelItem:
@@ -162,6 +172,31 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
+                Label:
+                    text: '    Ongoing Searches:'
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    size_hint_y:  None
+                    height: 40
+                RecycleView:
+                    id: threads
+                    canvas.before:
+                        Color:
+                            rgba: 0.5, 0.5, 0.5, 1
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    viewclass: 'SelectableLabel'
+                    SelectableRecycleBoxLayout:
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        spacing: dp(2)
+                        multiselect: False
+                        touch_multiselect: False
             GoogleResultRow:
                 id: google_result_row
                 size_hint_x: results_sidebar.width
@@ -176,9 +211,10 @@
                     spacing: dp(16)
                     Button:
                         text: 'List Results'
-                        on_press: google_result_row.list_results()
+                        on_press: google_result_row.list_results(root.ids.threads.data)
                     Button:
                         text: 'Float Updated'
+                        on_press: google_result_row.float_updated()
                 RecycleView:
                     id: rv
                     scroll_type: ['bars']

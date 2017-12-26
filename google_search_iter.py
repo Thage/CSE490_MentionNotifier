@@ -58,7 +58,7 @@ def dummy_func():
 
 
 
-def search_iter(query, iterFunc=dummy_func(), pages=1, lang='en', void=True):
+def search_iter(bundle, iterFunc=dummy_func(), pages=1, lang='en', void=True):
     """Returns a list of GoogleResult.
     Args:
         query: String to search in google.
@@ -68,7 +68,7 @@ def search_iter(query, iterFunc=dummy_func(), pages=1, lang='en', void=True):
 
     results = []
     for i in range(pages):
-        url = _get_search_url(query, i, lang=lang)
+        url = _get_search_url(bundle.google_query, i, lang=lang)
         html = get_html(url)
 
         if html:
@@ -81,7 +81,7 @@ def search_iter(query, iterFunc=dummy_func(), pages=1, lang='en', void=True):
                 if void is True:
                     if res.description is None:
                         continue
-                iterFunc(res)
+                iterFunc(res, bundle)
                 results.append(res)
                 j += 1
     print("Search end.")
