@@ -16,6 +16,8 @@ class GoogleResult(object):
         self.description = None  # The description of the link
         self.page = None  # Results page this one was on
         self.index = None  # What index on this page it was on
+        #self.was_updated = False
+
 
     def __repr__(self):
         name = self._limit_str_size(self.name, 55)

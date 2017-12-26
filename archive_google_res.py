@@ -38,11 +38,18 @@ def pickle_dict(bundle):
         '''
 
         #print("**")
-        update_count, update_index = compare_dicts(bundle.site_dict, old_dict)
+        update_count, update_index = compare_dicts(old_dict, bundle.site_dict)
         print(update_index)
         #print(">>" + str(update_count))
         msg = str(update_count) + " sites have updated!"
+
+        with open(pickle_filename, 'wb') as handle:
+            pickle.dump(bundle.site_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
         notification.notify(bundle.google_query, msg)
+
+
+
 
     else:
         with open(pickle_filename, 'wb') as handle:
@@ -51,6 +58,7 @@ def pickle_dict(bundle):
     os.chdir('..')
     return update_count, update_index
 
+'''
 
 def compare_dicts(dict1, dict2):
     zero_hash = "0"*128
@@ -68,3 +76,34 @@ def compare_dicts(dict1, dict2):
             #print(key + " has been updated!")
         i += 1
     return update_count, update_index
+
+'''
+
+def compare_dicts(dict1, dict2): #OLD vs NEW
+    update_count = 0
+    update_index = [False] * len(dict1)
+    i = 0
+    for key in dict1.keys():
+        if dict1[key] == dict2[key]:
+            update_index[i] = False
+            i += 1
+
+        elif dict1[key] != dict2[key]:
+            update_count += 1
+            update_index[i] = True
+            i += 1
+
+    for key in dict2.keys() - dict1.keys():
+        finder = 0
+        for key2 in dict2.keys():
+            if key == key2:
+                update_index.insert(finder, True)
+                update_count += 1
+            else:
+                finder += 1
+
+    return update_count, update_index
+
+
+
+

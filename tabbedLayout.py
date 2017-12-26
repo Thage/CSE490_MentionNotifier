@@ -87,14 +87,14 @@ class TabbedLayout(TabbedPanel):
             bundle.results = google.search_iter(bundle,agr.iterThis, pages=pages)
             bundle.update_index = agr.pickle_dict(bundle)[1]
 
-    def google_thread(self, pages):
+    def google_thread(self, pages, interval):
         ls = [d['text'] for d in self.ids.fields.data if d['selected'] == True]
         if len(ls) == 0: return
 
         search_keywords = " ".join(ls)
 
 
-        bundle = ResultBundle(trayNotification.intervalFuncTimer(40, self.google_this, xargs=[search_keywords, int(pages)]))
+        bundle = ResultBundle(trayNotification.intervalFuncTimer(int(interval), self.google_this, xargs=[search_keywords, int(pages)]))
         bundle.google_query = search_keywords
         ResultBundle.bundles.append(bundle)
         bundle.thread.start()
@@ -154,6 +154,8 @@ class GoogleResultRow(BoxLayout):
 
     def list_results(self, selection_list):
 
+        if len(selection_list) == 0: return
+
         print(selection_list)
         bundles = ResultBundle.bundles
         query = [d['text'] for d in selection_list if d['selected'] == True]
@@ -170,23 +172,7 @@ class GoogleResultRow(BoxLayout):
         #print([([y.name for y in x]) for x in google_results])
          #self.rv.data = [x[0].name for x in google_results]
 
-    def highlight_updated(self):
-        self.rv.data = sorted(self.rv.data, key=lambda x: x['value'])
 
-    def clear(self):
-        self.rv.data = []
-
-    def insert(self, value):
-        self.rv.data.insert(0, {'value': value or 'default value'})
-
-    def update(self, value):
-        if self.rv.data:
-            self.rv.data[0]['value'] = value or 'default new value'
-            self.rv.refresh_from_data()
-
-    def remove(self):
-        if self.rv.data:
-            self.rv.data.pop(0)
 
     def float_updated(self):
         self.rv.data = [x for x in self.rv.data if x['was_updated'] == True] +\

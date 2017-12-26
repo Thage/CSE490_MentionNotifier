@@ -1,6 +1,5 @@
 #: import Checkbox kivy.uix.checkbox
 #: import webbrowser webbrowser
-#: import HoverBehavior HoverBehavior
 
 <SelectableLabel>:
     # bg color
@@ -80,7 +79,7 @@
     do_default_tab: False
 
     TabbedPanelItem:
-        text: 'Main'
+        text: 'Search Tab'
         BoxLayout:
             BoxLayout:
                 size_hint_x: None
@@ -139,14 +138,14 @@
                         text: 'Remove Keyword'
                         on_press: root.removeField()
                     Button:
-                        text: 'Results'
-                        on_press: if [d['text'] for d in root.ids.fields.data if d['selected'] == True]: root.google_thread(pages_count.text)
-                        #on_press:
-                Button:
-                    text: 'print'
-                    on_press: root.thread_id_pr()
+                        text: 'Start Search'
+                        on_press: if [d['text'] for d in root.ids.fields.data if d['selected'] == True]: root.google_thread(pages_count.text, interval.text)
                 BoxLayout:
                     orientation:'horizontal'
+                    spacing: 10
+                    padding: 5
+                    size_hint_y: None
+                    height: 45
                     Label:
                         text: "Number of Pages:"
                     TextInput:
@@ -155,23 +154,26 @@
                         input_filter: 'int'
                         text: '2'
 
+                    Label:
+                        text: "Search intervals:\n(seconds)"
+                    TextInput:
+                        id: interval
+                        multiline: False
+                        input_filter: 'int'
+                        text: '30'
+
                 Label:
-                    text: 'Empty Space'
+                    text: ''
     TabbedPanelItem:
         id: results_tab
-        text: 'Results'
+        text: 'Results Tab'
         BoxLayout:
             BoxLayout:
                 id: results_sidebar
                 size_hint_x: None
                 width: 250
                 orientation:"vertical"
-                canvas.before:
-                    Color:
-                        rgba: 0.5, 0.5, 0.5, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+
                 Label:
                     text: '    Ongoing Searches:'
                     text_size: self.size
