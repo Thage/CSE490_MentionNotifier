@@ -119,8 +119,7 @@ def _get_link(li):
 
 
 def _get_description(li):
-    """Return the description of a google search.
-    TODO: encoding?"""
+    '''Return the description of a google search.'''
 
     sdiv = li.find("div", attrs={"class": "s"})
     if sdiv:
