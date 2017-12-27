@@ -1,21 +1,26 @@
-import google_search_iter as google
-#from google import google
 import hashlib
 import requests
 import pickle
+import urllib, socket
 import os
 from plyer import notification
-#from tabbedLayout import TabbedLayout
+from bs4 import BeautifulSoup
 
-#site_dict = {}
+
+
 
 def iterThis(res, bundle):
     link = res.link
     print(link)
     try:
-        page = requests.get(link,headers=None,proxies=None,timeout=3)
-        bundle.site_dict[link] = hashlib.sha3_512(page.text.encode('utf-8')).hexdigest()
-    except (requests.exceptions.ReadTimeout, requests.exceptions.SSLError, requests.exceptions.ConnectionError):
+        #page = requests.get(link,headers=None,proxies=None,timeout=3)
+        page = urllib.request.Request(link)
+        page_source = urllib.request.urlopen(page, timeout=3).read()
+        soup = BeautifulSoup(page_source, "html.parser")
+        body = str(soup.find("body"))
+        bundle.site_dict[link] = hashlib.sha3_512(body.encode('utf-8')).hexdigest()
+
+    except (urllib.error.URLError, socket.timeout, requests.exceptions.ConnectionError):
         bundle.site_dict[link] = "0"*128
 
 

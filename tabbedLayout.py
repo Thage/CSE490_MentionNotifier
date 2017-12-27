@@ -154,7 +154,7 @@ class GoogleResultRow(BoxLayout):
 
     def list_results(self, selection_list):
 
-        if len(selection_list) == 0: return
+        if not [d for d in selection_list if d['selected'] == True]: return
 
         print(selection_list)
         bundles = ResultBundle.bundles
