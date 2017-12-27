@@ -156,7 +156,6 @@ class GoogleResultRow(BoxLayout):
 
         if not [d for d in selection_list if d['selected'] == True]: return
 
-        print(selection_list)
         bundles = ResultBundle.bundles
         query = [d['text'] for d in selection_list if d['selected'] == True]
         query = query[0]
@@ -165,6 +164,7 @@ class GoogleResultRow(BoxLayout):
         
         bundle = bundles[[bundle.google_query for bundle in bundles].index(query)]
 
+        print(bundle.results)
         self.rv.data = [{'name': x.name, 'link': x.link, 'description': x.description,
                          'was_updated': bundle.update_index[bundle.results.index(x)]} for x in bundle.results]
 
@@ -178,6 +178,23 @@ class GoogleResultRow(BoxLayout):
         self.rv.data = [x for x in self.rv.data if x['was_updated'] == True] +\
                        [x for x in self.rv.data if x['was_updated'] == False]
 
+
+    def stop_search(self, selection_list):
+
+
+        d = [d for d in selection_list if d['selected'] == True]
+        if not d: return
+
+        print(selection_list)
+        print(d)
+
+        bundles = ResultBundle.bundles
+        query = [d['text'] for d in selection_list if d['selected'] == True][0]
+        bundle = bundles[[bundle.google_query for bundle in bundles].index(query)]
+
+        bundle.thread.cancel()
+        bundles.remove(bundle)
+        selection_list.remove(d[0])
 
 
 class TabbedLayoutApp(App):
