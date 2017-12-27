@@ -217,6 +217,9 @@
                     Button:
                         text: 'Float Updated'
                         on_press: google_result_row.float_updated()
+                    Button:
+                        text: 'Stop Search'
+                        on_press: google_result_row.stop_search(root.ids.threads.data)
                 RecycleView:
                     id: rv
                     scroll_type: ['bars']
