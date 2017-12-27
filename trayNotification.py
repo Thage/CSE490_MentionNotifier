@@ -1,4 +1,3 @@
-from plyer import notification
 from threading import Timer
 
 class intervalFuncTimer:
@@ -6,6 +5,7 @@ class intervalFuncTimer:
     thread_count = 0
 
     def __init__(self,t,func, xargs):
+        self.running = False
         self.t=t
         self.func = func
         self.xargs = xargs
@@ -15,16 +15,15 @@ class intervalFuncTimer:
 
 
     def handle_function(self):
-        self.func(*self.xargs)
-        self.thread = Timer(self.t,self.handle_function)
-        self.thread.start()
+        if self.running:
+            self.func(*self.xargs)
+            self.thread = Timer(self.t,self.handle_function)
+            self.thread.start()
 
     def start(self):
+        self.running = True
         self.thread.start()
 
     def cancel(self):
-        self.thread.cancel()
+        self.running = False
 
-
-def notifier_test():
-    notification.notify("Test Title", "Test Message")
