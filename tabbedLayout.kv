@@ -1,6 +1,7 @@
 #: import Checkbox kivy.uix.checkbox
 #: import webbrowser webbrowser
 
+
 <SelectableLabel>:
     # bg color
     canvas.before:
@@ -11,7 +12,8 @@
             size: self.size
 
 <LinkLabel@ButtonBehavior+Label>:
-    on_release: webbrowser.open(self.text)
+
+    on_release: webbrowser.open(self.text), self.parent.parent.parent.parent.parent.parent.set_blue(self.text, self.parent.parent.parent.parent.parent.parent.parent.parent.parent.ids.threads.data), self.refresh()
 
 <Row@BoxLayout>:
     canvas.before:
@@ -33,7 +35,7 @@
                 size: self.size
                 pos: self.pos
         GridLayout:
-            rows:2
+            cols:2
             Label:
                 text_size: self.size
                 halign:'left'
@@ -49,18 +51,28 @@
                 halign:'right'
                 valign:'top'
                 size_hint_y:None
-                text: 'UPDATED' if root.was_updated else ''
+                text: root.last_updated_cal if root.was_updated else ''
                 height:20
-                color: 1,0,0,1
-
-        LinkLabel:
-            text_size: self.size
-            halign:'left'
-            valign:'top'
-            size_hint_y:None
-            text: root.link
-            height:20
-            color: (.1,.7,.1,1)
+                color: (1,0,0,1) if root.was_checked == 'red' else (0,0,1,1)
+        GridLayout:
+            cols:2
+            LinkLabel:
+                text_size: self.size
+                halign:'left'
+                valign:'top'
+                size_hint_y:None
+                text: root.link
+                height:20
+                color: (.1,.7,.1,1)
+            Label:
+                text_size: self.size
+                bold: True
+                halign:'right'
+                valign:'top'
+                size_hint_y:None
+                text: root.last_updated_time if root.was_updated else ''
+                height:20
+                color: (1,0,0,1) if root.was_checked == 'red' else (0,0,1,1)
 
         Label:
             text_size: self.size

@@ -15,13 +15,6 @@ from kivy.properties import StringProperty
 
 
 
-from random import sample
-from string import ascii_lowercase
-
-
-
-
-
 class ResultBundle:
 
     bundles = []
@@ -32,6 +25,9 @@ class ResultBundle:
         self.results = []
         self.update_index = []
         self.site_dict = {}
+        self.last_updated =[]
+        self.was_checked = []
+
 
 
 
@@ -83,18 +79,23 @@ class TabbedLayout(TabbedPanel):
     def google_this(self, search_keywords, pages=2):
 
         if search_keywords in [bundle.google_query for bundle in ResultBundle.bundles]:
-            bundle = ResultBundle.bundles[[bundle.google_query for bundle in ResultBundle.bundles].index(search_keywords)]
+            bundle = ResultBundle.bundles[[bundle.google_query\
+                                           for bundle in ResultBundle.bundles].index(search_keywords)]
             bundle.results = google.search_iter(bundle,agr.iterThis, pages=pages)
             bundle.update_index = agr.pickle_dict(bundle)[1]
+
 
     def google_thread(self, pages, interval):
         ls = [d['text'] for d in self.ids.fields.data if d['selected'] == True]
         if len(ls) == 0: return
 
+        ls = ['\"' + w + '\"' for w in ls]
+
         search_keywords = " ".join(ls)
 
 
-        bundle = ResultBundle(trayNotification.intervalFuncTimer(int(interval), self.google_this, xargs=[search_keywords, int(pages)]))
+        bundle = ResultBundle(trayNotification.intervalFuncTimer(int(interval),
+                                                                 self.google_this, xargs=[search_keywords, int(pages)]))
         bundle.google_query = search_keywords
         ResultBundle.bundles.append(bundle)
         bundle.thread.start()
@@ -146,6 +147,10 @@ class Row(BoxLayout):
     link = StringProperty()
     description = StringProperty()
     was_updated = BooleanProperty(False)
+    last_updated_cal = StringProperty()
+    last_updated_time = StringProperty()
+    was_checked = StringProperty()
+
 
 
 
@@ -164,9 +169,18 @@ class GoogleResultRow(BoxLayout):
         
         bundle = bundles[[bundle.google_query for bundle in bundles].index(query)]
 
+
+        print("bun_res:", len(bundle.results))
+        print("bun_lst:", len(bundle.last_updated))
+        print("bun_was:", len(bundle.was_checked))
+
         print(bundle.results)
         self.rv.data = [{'name': x.name, 'link': x.link, 'description': x.description,
-                         'was_updated': bundle.update_index[bundle.results.index(x)]} for x in bundle.results]
+                         'was_updated': bundle.update_index[bundle.results.index(x)],
+                         'was_checked': bundle.was_checked[bundle.results.index(x)],
+                         'last_updated_time': '{:%H:%M:%S}'.format(bundle.last_updated[bundle.results.index(x)]),
+                         'last_updated_cal': '{:%d/%b/%Y}'.format(bundle.last_updated[bundle.results.index(x)])}\
+                        for x in bundle.results]
 
 
         #print([([y.name for y in x]) for x in google_results])
@@ -177,6 +191,14 @@ class GoogleResultRow(BoxLayout):
     def float_updated(self):
         self.rv.data = [x for x in self.rv.data if x['was_updated'] == True] +\
                        [x for x in self.rv.data if x['was_updated'] == False]
+
+    def set_blue(self, link, selection_list):
+        bundles = ResultBundle.bundles
+        query = [d['text'] for d in selection_list if d['selected'] == True][0]
+        bundle = bundles[[bundle.google_query for bundle in bundles].index(query)]
+
+        bundle.was_checked[[res.link for res in bundle.results].index(link)] = 'blue'
+        [x for x in self.rv.data if x['link'] == link][0]['was_checked'] = 'blue'
 
 
     def stop_search(self, selection_list):
@@ -197,9 +219,17 @@ class GoogleResultRow(BoxLayout):
         selection_list.remove(d[0])
 
 
+
+
 class TabbedLayoutApp(App):
     def build(self):
         return TabbedLayout()
+
+    def on_stop(self):
+        for bundle in ResultBundle.bundles:
+            bundle.thread.cancel()
+            ResultBundle.bundles.remove(bundle)
+
 
 
 if __name__ == '__main__':

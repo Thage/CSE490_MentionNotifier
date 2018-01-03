@@ -6,6 +6,7 @@ from re import match
 
 
 
+
 class GoogleResult(object):
 
     """Represents a google search result."""
@@ -16,7 +17,6 @@ class GoogleResult(object):
         self.description = None  # The description of the link
         self.page = None  # Results page this one was on
         self.index = None  # What index on this page it was on
-        #self.was_updated = False
 
 
     def __repr__(self):
@@ -67,6 +67,9 @@ def search_iter(bundle, iterFunc=dummy_func(), pages=1, lang='en', void=True):
         pages: Number of pages where results must be taken.
     Returns:
         A GoogleResult object."""
+
+    if pages == 0:
+        pages = 30
 
     results = []
     for i in range(pages):
@@ -152,10 +155,10 @@ def _get_search_url(query, page=0, per_page=10, lang='en'):
     # note: num per page might not be supported by google anymore (because of
     # google instant)
 
+
     params = {'nl': lang, 'q': query.encode(
         'utf8'), 'start': page * per_page, 'num': per_page}
     params = urlencode(params)
     url = u"http://www.google.com/search?" + params
-    # return u"http://www.google.com/search?hl=%s&q=%s&start=%i&num=%i" %
-    # (lang, normalize_query(query), page * per_page, per_page)
+
     return url
