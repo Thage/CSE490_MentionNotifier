@@ -89,7 +89,7 @@ class TabbedLayout(TabbedPanel):
         ls = [d['text'] for d in self.ids.fields.data if d['selected'] == True]
         if len(ls) == 0: return
 
-        ls = ['\"' + w + '\"' for w in ls]
+        ls = ['\"' + w + '\"' for w in ls if not w.startswith("-")] + [w for w in ls if w.startswith("-")]
 
         search_keywords = " ".join(ls)
 
