@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MentionNotifier &#8212; MentionNotifier 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IntervalFuncTimer" href="IntervalFuncTimer.html" />
+    <link rel="prev" title="Welcome to MentionNotifier’s documentation!" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-MentionNotifier">
+<span id="mentionnotifier"></span><h1>MentionNotifier<a class="headerlink" href="#module-MentionNotifier" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="MentionNotifier.GoogleResultsList">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">GoogleResultsList</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.GoogleResultsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom UI element created by inheriting from Kivy class BoxLayout. Used as the layout for Row class elements to be
+listed.</p>
+<dl class="method">
+<dt id="MentionNotifier.GoogleResultsList.float_updated">
+<code class="descname">float_updated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.GoogleResultsList.float_updated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brings the result Rows that are updated to the top of self.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.GoogleResultsList.list_results">
+<code class="descname">list_results</code><span class="sig-paren">(</span><em>selection_list</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.GoogleResultsList.list_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function listing the results of a ResultBundle as a Row in self.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selection_list</strong> &#8211; List of searches. Used to pick the one that is selected.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns None if no search is selected.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.GoogleResultsList.set_blue">
+<code class="descname">set_blue</code><span class="sig-paren">(</span><em>link</em>, <em>selection_list</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.GoogleResultsList.set_blue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marks a Row as checked if it&#8217;s link was used. This makes it&#8217;s Updated text color blue, instead of red.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>link</strong> &#8211; Link that was just reacehd by the user.</li>
+<li><strong>selection_list</strong> &#8211; List of searches. Used to pick the one that is selected.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.GoogleResultsList.stop_search">
+<code class="descname">stop_search</code><span class="sig-paren">(</span><em>selection_list</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.GoogleResultsList.stop_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a SearchBundle to cancel it&#8217;s thread and removes that SearchBundle from the list bundles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selection_list</strong> &#8211; List of searches. Used to pick the one that is selected.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="MentionNotifier.MentionNotifier">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">MentionNotifier</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base UI element for the application inheriting from the kivy TabbedPanel class.
+The TabbedPanel widget manages different widgets in tabs, with a header area for the actual tab buttons and a content area for showing the current tab content.</p>
+<dl class="method">
+<dt id="MentionNotifier.MentionNotifier.addField">
+<code class="descname">addField</code><span class="sig-paren">(</span><em>text</em>, <em>selected=False</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifier.addField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for adding a keyword in to the list of keywords.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> &#8211; Keyword to be added.</li>
+<li><strong>selected</strong> &#8211; Denotes whether the keyword t obe created is selected or not. Not accessible through user, for auxiliary purposes. Defaults to False.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns empty if text == &#8220;&#8221;.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.MentionNotifier.google_this">
+<code class="descname">google_this</code><span class="sig-paren">(</span><em>search_keywords</em>, <em>pages=2</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifier.google_this" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function repeatedly called by a ResultBundle&#8217;s intervalFuncTimer thread. Makes sure that the ResultBundle
+corresponding to it&#8217;s query is still in the bundles list, then retrieves it. Then retrieves the GoogleResult
+instances for the google query with given page depth. Then sets the ResultBundle update_index by comparing
+it to a pickled iteration of the search, by matching the two&#8217;s queries.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>search_keywords</strong> &#8211; The google query to be searched.</li>
+<li><strong>pages</strong> &#8211; Depth of the google search to be done.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.MentionNotifier.google_thread">
+<code class="descname">google_thread</code><span class="sig-paren">(</span><em>pages</em>, <em>interval</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifier.google_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for starting a search. Makes sure that a keywords is selected, then creates a google query string out
+of it. Then it creates a ResultBundle and creates it&#8217;s thread with the given interval parameter. The thread
+calls on to the google_this function with the google query created and the number of pages to be searched.
+The function then adds this ResultBundle into the ResultBundle.bundles list and then starts the ResultBundle thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.MentionNotifier.removeField">
+<code class="descname">removeField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifier.removeField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for removing selected a keyword from the keywords list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="MentionNotifier.MentionNotifierApp">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">MentionNotifierApp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifierApp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom class inheriting from the Kivy App class. The base for our application, holds the entry point for the Kivy
+run loops.</p>
+<dl class="method">
+<dt id="MentionNotifier.MentionNotifierApp.build">
+<code class="descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifierApp.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the application; it will be called only once. Returns the MentionNotifier widget (tree), that will
+be used as the root widget and added to the window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">MentionNotifier instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.MentionNotifierApp.on_stop">
+<code class="descname">on_stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.MentionNotifierApp.on_stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event function fired when the application stops. Useed to cancel each search thread running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="MentionNotifier.ResultBundle">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">ResultBundle</code><span class="sig-paren">(</span><em>thread</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.ResultBundle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class holding the data for each ongoing search task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>bundles</strong> (<em>list</em>) &#8211; List holding the ResultBundle instances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="MentionNotifier.Row">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">Row</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.Row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom UI element created by inheriting from Kivy class BoxLayout. Used as the view class to represent each
+GoogleResult column in the ResultsList.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; Kivy property that represents a string value. Title of a google result.</li>
+<li><strong>link</strong> (<em>str</em>) &#8211; Kivy property that represents a string value. Link of a google result.</li>
+<li><strong>description</strong> (<em>str</em>) &#8211; Kivy property that represents a string value. Description text of a google result.</li>
+<li><strong>was_updated</strong> (<em>bool</em>) &#8211; Kivy property that represents a boolean value. Denotes whether the result was updated or not.</li>
+<li><strong>last_updated</strong> (<em>str</em>) &#8211; Kivy property that represents a string value. Date when the object was last updated.</li>
+<li><strong>time_updated</strong> (<em>str</em>) &#8211; Kivy property that represents a string value. Time when the object was last updated.</li>
+<li><strong>was_checked</strong> (<em>str</em>) &#8211; Kivy property that represents a string value. Denotes whether the result was checked by the user or not.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="MentionNotifier.SelectableLabel">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">SelectableLabel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.SelectableLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom selectable UI element created by inheriting from two Kivy classes. Used for representing and selecting each keyword or search.</p>
+<dl class="method">
+<dt id="MentionNotifier.SelectableLabel.apply_selection">
+<code class="descname">apply_selection</code><span class="sig-paren">(</span><em>rv</em>, <em>index</em>, <em>is_selected</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.SelectableLabel.apply_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a selection to the data dictionary of the RecycleView object in the background.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rv</strong> &#8211; Recycleview instance.</li>
+<li><strong>index</strong> &#8211; Index of self.</li>
+<li><strong>is_selected</strong> &#8211; Whether if self is selected.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.SelectableLabel.on_touch_down">
+<code class="descname">on_touch_down</code><span class="sig-paren">(</span><em>touch</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.SelectableLabel.on_touch_down" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Internal Widget Kivy class function overrridden. When a new touch is registered, tests if it collides with the</dt>
+<dd>bounding box of another known gesture. Used for click detection for our purposes.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>touch</strong> &#8211; Touch Kivy object used to initialize the gesture container.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="MentionNotifier.SelectableLabel.refresh_view_attrs">
+<code class="descname">refresh_view_attrs</code><span class="sig-paren">(</span><em>rv</em>, <em>index</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.SelectableLabel.refresh_view_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal RecycleDataView Kivy class function overridden. Syncs the view and brings it up to date with the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rv</strong> &#8211; RecycleView instance.</li>
+<li><strong>index</strong> &#8211; The index of the SelectableLabel.</li>
+<li><strong>data</strong> &#8211; Updated data dictionary kept in the back.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Calls the function onto self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><p class="first last"><strong>index</strong> &#8211; Sets the index as self&#8217;s index within a list.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="MentionNotifier.SelectableRecycleBoxLayout">
+<em class="property">class </em><code class="descclassname">MentionNotifier.</code><code class="descname">SelectableRecycleBoxLayout</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MentionNotifier.SelectableRecycleBoxLayout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom UI element created by inheriting from multiple Kivy classes. Used for listing Keywords and Searches.
+The FocusBehavior mixin class provides keyboard focus behavior. (instances of self can be cycled by pressing tab.)
+LayoutSelectionBehavior adds selection behavior to layouts.
+RecycleBoxLayout provides a BoxLayout type layout for use with RecycleView widget.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Welcome to MentionNotifier&#8217;s documentation!</a></li>
+      <li>Next: <a href="IntervalFuncTimer.html" title="next chapter">IntervalFuncTimer</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/MentionNotifier.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Berk Ergun.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/modules/MentionNotifier.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

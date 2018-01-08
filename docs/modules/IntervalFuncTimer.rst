@@ -1,0 +1,4 @@
+IntervalFuncTimer
+=================
+.. automodule:: IntervalFuncTimer
+    :members:

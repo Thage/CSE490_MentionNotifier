@@ -1,6 +1,7 @@
 #: import Checkbox kivy.uix.checkbox
 #: import webbrowser webbrowser
 
+
 <SelectableLabel>:
     # bg color
     canvas.before:
@@ -11,7 +12,8 @@
             size: self.size
 
 <LinkLabel@ButtonBehavior+Label>:
-    on_release: webbrowser.open(self.text)
+
+    on_release: webbrowser.open(self.text), self.parent.parent.parent.parent.parent.parent.set_blue(self.text, self.parent.parent.parent.parent.parent.parent.parent.parent.parent.ids.threads.data)
 
 <Row@BoxLayout>:
     canvas.before:
@@ -33,7 +35,7 @@
                 size: self.size
                 pos: self.pos
         GridLayout:
-            rows:2
+            cols:2
             Label:
                 text_size: self.size
                 halign:'left'
@@ -49,18 +51,28 @@
                 halign:'right'
                 valign:'top'
                 size_hint_y:None
-                text: 'UPDATED' if root.was_updated else ''
+                text: root.last_updated_cal if root.was_updated else ''
                 height:20
-                color: 1,0,0,1
-
-        LinkLabel:
-            text_size: self.size
-            halign:'left'
-            valign:'top'
-            size_hint_y:None
-            text: root.link
-            height:20
-            color: (.1,.7,.1,1)
+                color: (1,0,0,1) if root.was_checked == 'red' else (0,0,1,1)
+        GridLayout:
+            cols:2
+            LinkLabel:
+                text_size: self.size
+                halign:'left'
+                valign:'top'
+                size_hint_y:None
+                text: root.link
+                height:20
+                color: (.1,.7,.1,1)
+            Label:
+                text_size: self.size
+                bold: True
+                halign:'right'
+                valign:'top'
+                size_hint_y:None
+                text: root.last_updated_time if root.was_updated else ''
+                height:20
+                color: (1,0,0,1) if root.was_checked == 'red' else (0,0,1,1)
 
         Label:
             text_size: self.size
@@ -75,7 +87,7 @@
 
 
 
-<TabbedLayout>:
+<MentionNotifier>:
     do_default_tab: False
 
     TabbedPanelItem:
@@ -199,8 +211,8 @@
                         spacing: dp(2)
                         multiselect: False
                         touch_multiselect: False
-            GoogleResultRow:
-                id: google_result_row
+            GoogleResultsList:
+                id: google_results_list
                 size_hint_x: results_sidebar.width
                 orientation: 'vertical'
                 rv:rv
@@ -213,13 +225,13 @@
                     spacing: dp(16)
                     Button:
                         text: 'List Results'
-                        on_press: google_result_row.list_results(root.ids.threads.data)
+                        on_press: google_results_list.list_results(root.ids.threads.data)
                     Button:
                         text: 'Float Updated'
-                        on_press: google_result_row.float_updated()
+                        on_press: google_results_list.float_updated()
                     Button:
                         text: 'Stop Search'
-                        on_press: google_result_row.stop_search(root.ids.threads.data)
+                        on_press: google_results_list.stop_search(root.ids.threads.data)
                 RecycleView:
                     id: rv
                     scroll_type: ['bars']

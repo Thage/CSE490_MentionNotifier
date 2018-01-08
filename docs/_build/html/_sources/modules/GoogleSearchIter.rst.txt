@@ -1,0 +1,4 @@
+GoogleSearchIter
+================
+.. automodule:: GoogleSearchIter
+    :members:
