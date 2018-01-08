@@ -13,11 +13,7 @@
 
 <LinkLabel@ButtonBehavior+Label>:
 
-<<<<<<< HEAD:tabbedLayout.kv
-    on_release: webbrowser.open(self.text), self.parent.parent.parent.parent.parent.parent.set_blue(self.text, self.parent.parent.parent.parent.parent.parent.parent.parent.parent.ids.threads.data), self.refresh()
-=======
     on_release: webbrowser.open(self.text), self.parent.parent.parent.parent.parent.parent.set_blue(self.text, self.parent.parent.parent.parent.parent.parent.parent.parent.parent.ids.threads.data)
->>>>>>> body-done:MentionNotifier.kv
 
 <Row@BoxLayout>:
     canvas.before:
@@ -232,17 +228,10 @@
                         on_press: google_results_list.list_results(root.ids.threads.data)
                     Button:
                         text: 'Float Updated'
-<<<<<<< HEAD:tabbedLayout.kv
-                        on_press: google_result_row.float_updated()
-                    Button:
-                        text: 'Stop Search'
-                        on_press: google_result_row.stop_search(root.ids.threads.data)
-=======
                         on_press: google_results_list.float_updated()
                     Button:
                         text: 'Stop Search'
                         on_press: google_results_list.stop_search(root.ids.threads.data)
->>>>>>> body-done:MentionNotifier.kv
                 RecycleView:
                     id: rv
                     scroll_type: ['bars']
