@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ArchiverComperator &#8212; MentionNotifier 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="GoogleSearchIter" href="GoogleSearchIter.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ArchiverComperator">
+<span id="archivercomperator"></span><h1>ArchiverComperator<a class="headerlink" href="#module-ArchiverComperator" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="ArchiverComperator.compare_dicts">
+<code class="descclassname">ArchiverComperator.</code><code class="descname">compare_dicts</code><span class="sig-paren">(</span><em>dict1</em>, <em>bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ArchiverComperator.compare_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>The comparator function for a new and old site_dict dictionary values.</dt>
+<dd><ul class="first last simple">
+<li>If a link exists in both dicts and their hashes match, it&#8217;ll do nothing.</li>
+<li>If a link exists in both dicts but their hashes don&#8217;t match, then it&#8217;s and marked as updated.</li>
+<li>If the old dict throws a KeyError, meaning it cannot find a link value in the new site_dict, it&#8217;ll pass.</li>
+</ul>
+</dd>
+</dl>
+<p>After that, the links that are NOT in the old site_dict but are in the new site_dict are marked as updated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dict1</strong> &#8211; Old site_dict retrieved from a pickle stored.</li>
+<li><strong>bundle</strong> &#8211; Bundle from which it&#8217;s site_dict will be retrieved from and it&#8217;s last_updated and was_checked values</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>will be set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">update_count, update_index</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ArchiverComperator.iterThis">
+<code class="descclassname">ArchiverComperator.</code><code class="descname">iterThis</code><span class="sig-paren">(</span><em>res</em>, <em>bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ArchiverComperator.iterThis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function called for while iterating over GoogleResult&#8217;s to hash them. Get&#8217;s the source of a link (with a 3 second timmeout),
+pulls the &lt;body&gt; part from it and hashes that string. If body can&#8217;t be retrieved, it uses the whole page instead. And if
+the page cannot be retreived at all, the hash is saved as an all-zero hash. Then stores it in the ResultBundle&#8217;s
+site_dict as a value for the link&#8217;s key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>res</strong> &#8211; GoogleResult that the link of will be used.</li>
+<li><strong>bundle</strong> &#8211; ResultBundle that it&#8217;s site_dict will be used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="ArchiverComperator.pickle_dict">
+<code class="descclassname">ArchiverComperator.</code><code class="descname">pickle_dict</code><span class="sig-paren">(</span><em>bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ArchiverComperator.pickle_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function called for when storing and comparing old and new site_dict values. Sets the update index, last_updated and
+was_checked values to default if they don&#8217;t exist, then retrieves the pickle file corresponding to the bundle. Then it
+will compare the site_dict&#8217;s of the old and the new and return the update_index which&#8217;ll show whether a GoogleResult
+was updated or not. Then it&#8217;ll save the new_dict into a pickle file, overwriting any existing one if it exists.
+Finally it&#8217;ll file a notification announcing the number of updates within the bundle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bundle</strong> &#8211; ResultBundle</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="GoogleSearchIter.html" title="previous chapter">GoogleSearchIter</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/ArchiverComperator.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Berk Ergun.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/modules/ArchiverComperator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

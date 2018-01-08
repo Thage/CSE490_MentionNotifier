@@ -5,6 +5,13 @@ from unidecode import unidecode
 from re import match
 
 
+"""
+.. module:: GoogleSearchIter
+    :platform: Windows
+    :synopsis: holds the modified Google-Search-API by github.com user, abenassi. Holds the functions required in creating the GoogleResult objects used by our system.
+
+"""
+
 
 
 class GoogleResult(object):
@@ -44,6 +51,8 @@ class GoogleResult(object):
 # PUBLIC
 
 def GoogleResultGen(li,page,index):
+
+    '''Aux function to be called for when creating a GoogleResult.'''
     res = GoogleResult()
 
     res.page = page
@@ -55,6 +64,7 @@ def GoogleResultGen(li,page,index):
     return res
 
 def dummy_func():
+    '''Aux dummy function.'''
     pass
 
 
@@ -62,11 +72,13 @@ def dummy_func():
 
 def search_iter(bundle, iterFunc=dummy_func(), pages=1, lang='en', void=True):
     """Returns a list of GoogleResult.
-    Args:
-        query: String to search in google.
-        pages: Number of pages where results must be taken.
-    Returns:
-        A GoogleResult object."""
+
+    :param str query: String to search in google.
+    :param int pages: Number of pages where results must be taken.
+    :returns: A GoogleResult object."""
+
+    if pages == 0:
+        pages = 30
 
     if pages == 0:
         pages = 30
@@ -152,8 +164,7 @@ def get_html(url):
         return None
 
 def _get_search_url(query, page=0, per_page=10, lang='en'):
-    # note: num per page might not be supported by google anymore (because of
-    # google instant)
+
 
 
     params = {'nl': lang, 'q': query.encode(

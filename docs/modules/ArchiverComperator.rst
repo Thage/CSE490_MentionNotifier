@@ -1,0 +1,4 @@
+ArchiverComperator
+==================
+.. automodule:: ArchiverComperator
+    :members:
