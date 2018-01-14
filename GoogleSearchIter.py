@@ -13,7 +13,6 @@ from re import match
 """
 
 
-
 class GoogleResult(object):
 
     """Represents a google search result."""
@@ -76,9 +75,6 @@ def search_iter(bundle, iterFunc=dummy_func(), pages=1, lang='en', void=True):
     :param str query: String to search in google.
     :param int pages: Number of pages where results must be taken.
     :returns: A GoogleResult object."""
-
-    if pages == 0:
-        pages = 30
 
     if pages == 0:
         pages = 30
@@ -164,7 +160,6 @@ def get_html(url):
         return None
 
 def _get_search_url(query, page=0, per_page=10, lang='en'):
-
 
 
     params = {'nl': lang, 'q': query.encode(

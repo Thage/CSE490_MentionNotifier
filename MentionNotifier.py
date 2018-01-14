@@ -53,6 +53,7 @@ class ResultBundle:
         '''
 
         self.google_query = ""
+        self.keywords = None
         self.thread = thread
         self.results = []
         self.update_index = []
@@ -161,12 +162,13 @@ class MentionNotifier(TabbedPanel):
 
         ls = ['\"' + w + '\"' for w in ls if not w.startswith("-")] + [w for w in ls if w.startswith("-")]
 
-        search_keywords = " ".join(ls)
+        google_query = " ".join(ls)
 
 
         bundle = ResultBundle(IntervalFuncTimer.intervalFuncTimer(int(interval),
-                                                                  self.google_this, xargs=[search_keywords, int(pages)]))
-        bundle.google_query = search_keywords
+                                                                  self.google_this, xargs=[google_query, int(pages)]))
+        bundle.google_query = google_query
+        bundle.keywords = ls
         ResultBundle.bundles.append(bundle)
         bundle.thread.start()
 

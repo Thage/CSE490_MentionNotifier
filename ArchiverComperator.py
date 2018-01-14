@@ -1,10 +1,9 @@
-import hashlib
-import pickle
-import urllib, requests
-import os
+import hashlib, pickle, requests, os, re
+from urllib.request import Request, urlopen
 from plyer import notification
 from bs4 import BeautifulSoup
 from datetime import datetime
+from html2text import html2text
 
 
 """
@@ -33,10 +32,31 @@ def iterThis(res, bundle):
     try:
         #page = requests.get(link,headers=None,proxies=None,timeout=3)
         try:
-            page = urllib.request.Request(link)
-            page_source = urllib.request.urlopen(page, timeout=3).read()
+            '''
+            page = Request(link)
+            page_source = urlopen(page, timeout=3).read()
             soup = BeautifulSoup(page_source, "html.parser")
             body = str(soup.find("body"))
+            '''
+            occurs = []
+            page = Request(link)
+            page_source = urlopen(page, timeout=3).read()
+            soup = BeautifulSoup(page_source, 'html.parser')
+            scripts = soup.find_all('script')
+            text = html2text(soup.text)
+            for script in scripts:
+                script.extract()
+            for keyword in bundle.keywords:
+                if not keyword.startswith('-'):
+
+                    indexs = [i.start() for i in re.finditer(keyword, text, flags=re.IGNORECASE)]
+                    for i in indexs:
+                        occurs.append(text[i-30:i+30])
+            occurs_str = "".join(occurs)
+            body = occurs_str
+            print("done")
+
+
         except:
             page = requests.get(link, headers=None, proxies=None, timeout=3)
             body = page.text
